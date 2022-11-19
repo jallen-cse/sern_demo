@@ -1,24 +1,90 @@
 
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
+import { ParamsDictionary } from "express-serve-static-core";
+import querystring from "querystring"
+
+import HttpError from "../common/http_error";
+import QuerystringRequest from "../common/querystring_request";
+
+import jobsService from "../services/jobs.service";
+
+/**
+ * Parse 'jobId' from express params.
+ * @param params express params dictionary
+ * @returns number parsed jobId
+ * @throws {HttpError} if values are invalid
+ */
+function getJobIdFromParams(params: ParamsDictionary): number {
+  const jobId = Number(params.jobId);
+  if (isNaN(jobId)) {
+    throw new HttpError(422, "required parameter jobId must be an integer");
+  } else {
+    return jobId;
+  }
+}
+
+/**
+ * Parse 'jobIds' from express query.
+ * @param query express simply parsed query
+ * @returns number[] parsed jobIds or undefined
+ * @throws {HttpError} if values are invalid
+ */
+function getJobIdsFromQuery(
+  query: querystring.ParsedUrlQuery
+): number[] | undefined {
+  const raw = query.jobIds;
+  if (raw === undefined) {
+    return undefined;
+  } else {
+    const converted = typeof raw === "string" ?
+      raw.split(',').map(v => Number(v)) :
+      raw.map(v => Number(v));
+    if (converted.some(v => isNaN(v))) {
+      throw new HttpError(422, "jobIds must be integers");
+    } else {
+      return converted;
+    }
+  }
+}
+
 
 /**
  * Get a job by a given ID.
  */
-export async function getJob(
-  req: Request, res: Response, next: NextFunction
-): Promise<void> {
-  const jobId = req.params.jobId;
-  res.status(200).send(`job with id ${jobId}`);
-  next();
+async function getJob(
+  req: QuerystringRequest, 
+  res: Response,
+  next: NextFunction
+): Promise<void> {  
+  try {
+    const job = await jobsService.getJob(getJobIdFromParams(req.params));
+    if (job === null) {
+      next(new HttpError(404));
+    } else {
+      res.status(200).json(job);
+    }
+  } catch (err) {
+    next(err);
+  }
 }
 
 /**
  * Get all jobs or jobs with the given IDs.
  */
-export async function getJobs(
-  req: Request, res: Response, next: NextFunction
+async function getJobs(
+  req: QuerystringRequest, 
+  res: Response,
+  next: NextFunction
 ): Promise<void> {
-  const jobIds = req.params.jobIds;
-  res.status(200).send(`jobs with ids ${jobIds}`);
-  next();
+  try {
+    const jobs = await jobsService.getJobs(getJobIdsFromQuery(req.query));
+    res.status(200).json(jobs);
+  } catch (err) {
+    next(err)
+  }
+}
+
+export default {
+  getJob,
+  getJobs
 }
