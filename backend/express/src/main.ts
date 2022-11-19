@@ -6,12 +6,14 @@ import swagger from "swagger-ui-express";
 
 import openapi from "./openapi";
 
+import db from "./services/db"
+
 import jobsRouter from "./routes/jobs.routes"; 
 import searchRouter from "./routes/search.routes"; 
+import errorHandler from "./middleware/error_handler";
 
+const PORT = process.env.PORT || 5000;
 const isProduction = process.env.NODE_ENV === "production";
-
-const PORT = 5000;
 
 const app = express();
 
@@ -28,9 +30,24 @@ app.use("/openapi", swagger.serve, swagger.setup(openapi));
 
 // add our routers
 app.use("/api/jobs", jobsRouter); 
-app.use("/api/search", searchRouter); 
+app.use("/api/search", searchRouter);
 
-// start server on port 5000
-app.listen(PORT, () => {
-  console.log(`Serving SERN Demo backend on port ${PORT}`);
-});
+// end-of-line error handling middleware
+app.use(errorHandler);
+
+// use the simple query parser (querystring)
+app.set("query parser", "simple");
+
+// make sure DB is ready to go and serve app
+const start = async () => {
+  try {
+    await db.sync();
+    app.listen(PORT, () => console.log(
+      `Serving SERN Demo backend on port ${PORT}`));
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
+};
+
+start();
