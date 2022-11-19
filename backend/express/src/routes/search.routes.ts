@@ -1,7 +1,7 @@
 
 import { Router } from "express";
 
-import { searchJobs } from "../controllers/search.controller";
+import searchController from "../controllers/search.controller";
 
 const searchRouter = Router();
 
@@ -25,9 +25,9 @@ const searchRouter = Router();
  *      responses:
  *        200:
  *          description: Returns any jobs that match the search parameters.
- *        400:
+ *        422:
  *          description: The request was ill-formed.
  */
-searchRouter.get("/jobs", searchJobs);
+searchRouter.get("/jobs", searchController.searchJobs);
 
 export default searchRouter;
