@@ -23,9 +23,19 @@ const jobsRouter = Router();
  *          explode: true
  *      responses:
  *        200:
- *          description: Returns the requested jobs.
- *        400:
- *          description: The request was ill-formed.
+ *          description: Returns all of the requested jobs that were found.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: array
+ *                items:
+ *                  $ref: "#/components/schemas/Job"
+ *        422:
+ *          description: The request was semantically ill-formed (bad parameter).
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: "#/components/schemas/Error"
  */
 jobsRouter.get("/", jobsController.getJobs);
 
@@ -43,11 +53,23 @@ jobsRouter.get("/", jobsController.getJobs);
  *            type: number
  *      responses:
  *        200:
- *          description: Returns the requested jobs.
- *        400:
- *          description: The request was ill-formed.
+ *          description: Returns the requested job.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: "#/components/schemas/Job"
  *        404:
- *          description: A job with the given jobId was not found.
+ *          description: A job with the requested jobId was not found.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: "#/components/schemas/Error"
+ *        422:
+ *          description: The request was semantically ill-formed (bad parameter).
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: "#/components/schemas/Error"
  */
 jobsRouter.get("/:jobId", jobsController.getJob);
 

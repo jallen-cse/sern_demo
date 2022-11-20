@@ -25,8 +25,18 @@ const searchRouter = Router();
  *      responses:
  *        200:
  *          description: Returns any jobs that match the search parameters.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: array
+ *                items:
+ *                  $ref: "#/components/schemas/Job"
  *        422:
  *          description: The request was ill-formed.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: "#/components/schemas/Error"
  */
 searchRouter.get("/jobs", searchController.searchJobs);
 
