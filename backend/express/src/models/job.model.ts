@@ -16,7 +16,12 @@ export const jobDefiner = (sequelize: Sequelize) => sequelize.define("job", {
       allowNull: false, 
       validate: { isInt: true }
     },
-    description: {
+    shortDescription: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: { len: [0, 255] }
+    },
+    fullDescription: {
       type: DataTypes.TEXT,
       allowNull: false
     }
