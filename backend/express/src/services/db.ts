@@ -4,6 +4,8 @@ import { Sequelize } from 'sequelize';
 import { jobDefiner } from '../models/job.model';
 import { employerDefiner } from '../models/employer.model';
 
+import dummyData from "./test_vals.json"
+
 const sequelize = new Sequelize({
   dialect: 'sqlite',
   storage: './data/database.sqlite',
@@ -31,33 +33,8 @@ async function sync() {
  * Helper to prime the DB with some dummy values.
  */
 async function prime() {
-  await jobs.bulkCreate([
-    {
-      title: "Software Engineer I",
-      employerId: 100,
-      description: "You will write 'hello world'"
-    },
-    {
-      title: "Software Engineer II",
-      employerId: 100,
-      description: "You teach junior engineers how to write 'hello world'"
-    },
-    {
-      title: "Talent Recruiter",
-      employerId: 100,
-      description: "You will find talent"
-    },
-    {
-      title: "Systems Engineer (Embedded)",
-      employerId: 100,
-      description: "You will write 'hello world' in C89"
-    },
-    {
-      title: "Security Researcher",
-      employerId: 100,
-      description: "You will write 'hello world' with buffer overflows"
-    }
-  ]);
+  await employers.bulkCreate(dummyData.employers);
+  await jobs.bulkCreate(dummyData.jobs);
 }
 
 export default {
