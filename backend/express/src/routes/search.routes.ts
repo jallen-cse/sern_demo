@@ -30,7 +30,7 @@ const searchRouter = Router();
  *              schema:
  *                type: array
  *                items:
- *                  $ref: "#/components/schemas/Job"
+ *                  $ref: "#/components/schemas/JobWithEmployer"
  *        422:
  *          description: The request was ill-formed.
  *          content:

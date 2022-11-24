@@ -1,5 +1,6 @@
 
 import swaggerJsdoc from "swagger-jsdoc";
+import { employerDTOSchema } from "./models/employer.model";
 
 import { jobDTOSchema } from "./models/job.model";
 
@@ -16,6 +17,14 @@ export default swaggerJsdoc({
     components: {
       schemas: {
         Job: jobDTOSchema,
+        Employer: employerDTOSchema,
+        JobWithEmployer: {
+          type: "object",
+          properties: {
+            ...jobDTOSchema.properties,
+            employer: employerDTOSchema
+          }
+        },
         Error: {
           type: "object",
           properties: {

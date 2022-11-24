@@ -1,5 +1,5 @@
 
-import { Model, Op } from "sequelize";
+import { FindOptions, Model, Op } from "sequelize";
 
 import db from "./db";
 
@@ -12,7 +12,7 @@ export interface SearchJobsArguments {
  * @param args SearchJobsArguments
  * @returns sequelize find options
  */
-function buildSearchWhereClause(args: SearchJobsArguments) {  
+function buildSearchWhereClause(args: SearchJobsArguments): FindOptions {
   const titleTokens = args.title.split(' ').filter(v => v.length > 3);
   return {
     where: {
@@ -23,6 +23,10 @@ function buildSearchWhereClause(args: SearchJobsArguments) {
           }
         }
       })
+    },
+    include: {
+      model: db.Employer,   
+      required: true
     }
   };
 }
