@@ -1,5 +1,27 @@
 import { Sequelize, DataTypes } from 'sequelize';
 
+export const employerDTOSchema = {
+  type: "object",
+  properties: {
+    id: {
+      type: "number",
+      required: true,
+    },
+    name: {
+      type: "string",
+      required: true,
+    },
+    numEmployees: {
+      type: "number",
+      required: true
+    },
+    headquarters: {
+      type: "string",
+      required: true
+    }
+  }
+};
+
 export const employerDefiner = (sequelize: Sequelize) => sequelize.define("employer", {
     id: {
       type: DataTypes.INTEGER,
