@@ -15,12 +15,16 @@ const sequelize = new Sequelize({
 /** 
  * Jobs table.
  */ 
-const jobs = jobDefiner(sequelize);
+const Job = jobDefiner(sequelize);
 
 /** 
  * Employers table.
  */ 
-const employers = employerDefiner(sequelize);
+const Employer = employerDefiner(sequelize);
+
+// create table relations
+Employer.hasMany(Job);
+Job.belongsTo(Employer);
 
 /**
  * Helper for syncing the DB against our models.
@@ -33,15 +37,15 @@ async function sync() {
  * Helper to prime the DB with some dummy values.
  */
 async function prime() {
-  await employers.bulkCreate(dummyData.employers);
-  await jobs.bulkCreate(dummyData.jobs);
+  await Employer.bulkCreate(dummyData.employers);
+  await Job.bulkCreate(dummyData.jobs);
 }
 
 export default {
   sync,
   prime,
-  jobs,
-  employers,
+  Job,
+  Employer,
 }
 
 // TODO move this to services probably

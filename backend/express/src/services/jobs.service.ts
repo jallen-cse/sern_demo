@@ -11,7 +11,7 @@ import db from "./db";
 async function getJob(
   jobId: number
 ): Promise<Model<any, any> | null> {
-  return db.jobs.findByPk(jobId)
+  return db.Job.findByPk(jobId)
 }
 
 /**
@@ -31,7 +31,7 @@ async function getJobs(
       }
     } :
     undefined;
-  return db.jobs.findAll(options);
+  return db.Job.findAll(options);
 }
 
 export default {

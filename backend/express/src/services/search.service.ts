@@ -35,7 +35,7 @@ function buildSearchWhereClause(args: SearchJobsArguments) {
 async function searchJobs(
   args: SearchJobsArguments
 ): Promise<Model<any, any>[]> {
-  return db.jobs.findAll(buildSearchWhereClause(args));
+  return db.Job.findAll(buildSearchWhereClause(args));
 }
 
 export default {
