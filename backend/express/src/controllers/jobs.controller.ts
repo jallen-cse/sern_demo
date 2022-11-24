@@ -59,7 +59,7 @@ async function getJob(
   try {
     const job = await jobsService.getJob(getJobIdFromParams(req.params));
     if (job === null) {
-      next(new HttpError(404));
+      next(new HttpError(404, "job with given ID not found"));
     } else {
       res.status(200).json(job);
     }

@@ -19,16 +19,17 @@ export default function errorHandler(
 ): void {
   if (err) {
     if (err instanceof HttpError) {
-      if (err.message) {
-        res.status(err.status).json({ log: err.message });
-      } else {
-        res.sendStatus(err.status);
-      }
+      res.status(err.status).json({
+        status: err.status,
+        message: err.message
+      });
     } else {
       const msg = isProduction ?
-        REDACT_MSG :
-        err.message;
-      res.status(500).json({ log: msg });
+        REDACT_MSG : err.message;
+      res.status(500).json({ 
+        status: 500,
+        message: msg
+      });
     }
   }
 }
