@@ -6,9 +6,13 @@ import { employerDefiner } from '../models/employer.model';
 
 import dummyData from "./test_vals.json"
 
+const isTest = process.env.NODE_ENV === "test";
+
 const sequelize = new Sequelize({
   dialect: 'sqlite',
-  storage: './data/database.sqlite',
+  storage: isTest ? 
+    "./test/data/database.sqlite" :
+    "./data/database.sqlite",
   logging: msg => console.log(`[sequelize] ${msg}`)
 });
 
