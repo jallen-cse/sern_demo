@@ -5,3 +5,6 @@ build/
 
 # sqlite database
 data/
+
+# omit test db 
+!test/data/
