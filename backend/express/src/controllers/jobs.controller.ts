@@ -16,10 +16,10 @@ import jobsService from "../services/jobs.service";
  */
 function getJobIdFromParams(params: ParamsDictionary): number {
   const jobId = Number(params.jobId);
-  if (isNaN(jobId)) {
-    throw new HttpError(422, "required parameter jobId must be an integer");
-  } else {
+  if (Number.isInteger(jobId)) {
     return jobId;
+  } else {
+    throw new HttpError(422, "required parameter jobId must be an integer");
   }
 }
 
@@ -39,10 +39,10 @@ function getJobIdsFromQuery(
     const converted = typeof raw === "string" ?
       raw.split(',').map(v => Number(v)) :
       raw.map(v => Number(v));
-    if (converted.some(v => isNaN(v))) {
-      throw new HttpError(422, "jobIds must be integers");
-    } else {
+    if (converted.every(v => Number.isInteger(v))) {
       return converted;
+    } else {
+      throw new HttpError(422, "jobIds must be integers");
     }
   }
 }
