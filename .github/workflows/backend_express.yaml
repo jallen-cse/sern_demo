@@ -4,10 +4,10 @@ name: Express Backend Workflow
 on:
   push:
     branches: [ main, gh_actions_dev ]
-    paths: [ ./backend/express/** ]
+    paths: [ './backend/express/**' ]
   pull_request:
     branches: [ main ]
-    paths: [ ./backend/express/** ]
+    paths: [ './backend/express/**' ]
 
 jobs:
   build_and_test:
