@@ -1,0 +1,30 @@
+
+name: Express Backend Workflow
+
+on:
+  push:
+    branches: [ main, gh_actions_dev ]
+    paths: [ './backend/express/**' ]
+  pull_request:
+    branches: [ main ]
+    paths: [ './backend/express/**' ]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: true
+      matrix:
+        node-version: [ 16.x ]
+    defaults:
+      run:
+        working-directory: ./backend/express
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci         # like npm install but demands existing lock file 
+      - run: npm run build
+      - run: npm run test
