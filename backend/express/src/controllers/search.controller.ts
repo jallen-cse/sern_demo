@@ -7,6 +7,9 @@ import QuerystringRequest from "../common/querystring_request";
 
 import searchService, { SearchJobsArguments } from "../services/search.service";
 
+// TODO consider merging jobs index route functionality to the search/jobs route.
+// TODO title should be able to be provided more than once in search params
+
 /**
  * Parse query parameters for search service arguments.
  * @param query express simply parsed query
