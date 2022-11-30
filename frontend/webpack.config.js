@@ -10,6 +10,12 @@ module.exports = {
   entry: "./src/index.tsx",
   devServer: {
     hot: true,
+    historyApiFallback: true,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, OPTIONS",
+      "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+    }
   },
   target: "web",
   output: {
