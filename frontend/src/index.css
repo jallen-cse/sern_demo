@@ -1,0 +1,23 @@
+
+#main-content {
+  padding: 10px;
+}
+
+.page-content {
+  width: 80%;
+  margin: auto;
+}
+
+@media screen and (max-width: 640px){
+  body {
+    width: 640px;
+    overflow: auto;
+  }
+}
+
+@media screen and (max-height: 480px){
+  body {
+    height: 480px;
+    overflow: auto;
+  }
+}
