@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest .test.ts --env node --passWithNoTests",
+    "test": "jest .test.ts --env node",
     "webpack": "node ./node_modules/webpack/bin/webpack.js ./webpack.config.js",
     "tsc": "node ./node_modules/typescript/bin/tsc",
     "start": "webpack serve --hot --open",
