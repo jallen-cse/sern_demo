@@ -9,7 +9,8 @@
     "build": "webpack --config webpack.config.js --mode development && npm run build_server",
     "build_server": "npx tsc src/server.ts --esModuleInterop --outDir ./dist",
     "start_dev": "webpack serve --hot --open",
-    "start_prod": "npm run build && NODE_ENV=production node dist/server.js"
+    "start_prod": "npm run _check_built && NODE_ENV=production node dist/server.js",
+    "_check_built": "node scripts/check_built.js"
   },
   "author": "",
   "license": "ISC",
